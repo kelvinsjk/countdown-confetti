@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fireworks-js/svelte": "^2.10.4",
 		"@svelteuidev/core": "^0.12.1",
 		"fireworks-js": "^2.10.4",
 		"flipdown": "^0.3.2",

@@ -5,6 +5,7 @@
   import { Switch, Button } from '@svelteuidev/core';
   import { onMount } from 'svelte';
   import {fade,scale} from 'svelte/transition'
+  import timer from './timer';
   
   let enabled = false;
   let options: FireworksOptions = {sound: {enabled, files: ['fireworks1.mp3', 'fireworks2.mp3']}, }
@@ -14,24 +15,40 @@
   let flipdown: any;
   let startConfetti = false;
   let countingDown = true;
-  var date = (new Date("June 9, 2023 17:00:00") / 1000) + 1;
+  const endDate = new Date("June 9, 2023 17:00:00");
+  //const endDate = new Date("May 29, 2023 23:44:10");
+  let date = (endDate.getTime() / 1000) + 1;
+  let real = false;
+
 
   onMount(()=>{
     fireworks = new Fireworks(fireworksContainer, options)
-    //flipdown = new FlipDown(date).start().ifEnded(()=>{
-    //  fireworks.start();
-    //  countingDown = false;
-    //  startConfetti = true;
-    //});
   })
 
-  $: {
-    options = {sound: {enabled, files: 
-      ['rocket.mp3', 'burst.mp3']
-    }, }
-    if (fireworks){
-      fireworks.updateOptions(options)
+  $: updateOptions(enabled)
+
+  const clock = timer({interval:200});
+  $: title = updateTitle($clock, countingDown);
+
+
+  function updateTitle(date: Date, countdown: boolean): string {
+    if (!countdown){
+      return 'Congratulations';
     }
+    const diff = Math.ceil((endDate.getTime() - date.getTime() + 1000) / (1000));
+    if (diff < 60){
+      return `${diff} second${diff===1 ? '' : 's'} left!`
+    }
+    const minutes = Math.ceil(diff/60)
+    if (diff < 3600){
+      return `${minutes} minute${minutes===1 ? '' : 's'} left!`
+    }
+    const hours = Math.ceil(minutes/60)
+    if (diff < 3600*24){
+      return `${hours} hour${hours===1 ? '' : 's'} left!`
+    }
+    const days = Math.ceil(hours/24);
+    return `${days} day${days===1 ? '' : 's'} left!`
   }
 
   function mini() {
@@ -45,20 +62,34 @@
     }, 5000)
   }
 
+  function updateOptions(enabled: boolean){
+    const files = real ? ['rocket.mp3', 'burst.mp3', 'applause.mp3'] : ['rocket.mp3', 'burst.mp3'];
+    options = {sound: {enabled, files}};
+    if (fireworks){
+      fireworks.updateOptions(options)
+    }
+  }
+
   function setup(node:HTMLElement) {
     if (flipdown){
       node.firstChild?.remove();
       node.insertBefore(flipdown.element, node.firstChild)
     } else {
       flipdown = new FlipDown(date).start().ifEnded(()=>{
-        fireworks.start();
+        fireworks.updateOptions({sound: {enabled, files: ['rocket.mp3', 'burst.mp3', 'applause.mp3']}});
+        real = true;
         countingDown = false;
+        fireworks.start();
         startConfetti = true;
       });
     }
   }
-
 </script>
+
+<svelte:head>
+  <title>{title}</title>
+  <link rel="preload" as="image" href="/tulips.png"/>
+</svelte:head>
 
 <main>
   <div 
@@ -81,7 +112,10 @@
   </div>  
   {:else}
   <div class="flipdown-container" in:scale={{delay:500, duration:1000}}>
-      <h2 class="huge">Congratulations!</h2>
+    <h2 class="huge">Congratulations!</h2>
+    {#if real}
+      <img alt="tulips" src="/tulips.png" />
+    {/if}
   </div>
   {/if}
   <div class="switch">

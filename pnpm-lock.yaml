@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@fireworks-js/svelte':
+    specifier: ^2.10.4
+    version: registry.npmjs.org/@fireworks-js/svelte@2.10.4
   '@svelteuidev/core':
     specifier: ^0.12.1
     version: registry.npmjs.org/@svelteuidev/core@0.12.1(@svelteuidev/composables@0.12.1)(svelte@3.59.1)
@@ -347,6 +350,14 @@ packages:
     version: 8.41.0
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  registry.npmjs.org/@fireworks-js/svelte@2.10.4:
+    resolution: {integrity: sha512-S6GyW50EMYn+3w6jFsj5CQZNG5rVG/BUkkYmP1iFMrRqTwwC4199B68vOQFtwYY8LBdFxOTZ6AWs5ikhIxlXnw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@fireworks-js/svelte/-/svelte-2.10.4.tgz}
+    name: '@fireworks-js/svelte'
+    version: 2.10.4
+    dependencies:
+      fireworks-js: registry.npmjs.org/fireworks-js@2.10.4
+    dev: false
 
   registry.npmjs.org/@floating-ui/core@0.7.3:
     resolution: {integrity: sha512-buc8BXHmG9l82+OQXOFU3Kr2XQx9ys01U/Q9HMIrZ300iLc8HLMgh7dcCqgYzAzf4BkoQvDcXf5Y+CuEZ5JBYg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@floating-ui/core/-/core-0.7.3.tgz}
