@@ -98,7 +98,6 @@
 	}
 
 	function setup(node:HTMLElement) {
-		console.log('hello')
 		if (flipdown){
 			node.firstChild?.remove();
       node.insertBefore(flipdown.element, node.firstChild)
@@ -162,7 +161,7 @@
 			<SveltyPicker
 				initialDate={dateObj}
 				startDate={new Date()}
-				format={"dd MM yy - hh:ii"}  
+				format={"dd MM yy hh:ii"}  
 				clearBtn={false}
 				on:change={dateInputUpdate}
 				bind:this={picker}
